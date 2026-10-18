@@ -10,33 +10,219 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccueilRouteImport } from './routes/accueil'
+import { Route as ArticlesRouteImport } from './routes/articles'
+import { Route as CommandesRouteImport } from './routes/commandes'
+import { Route as ConnexionRouteImport } from './routes/connexion'
+import { Route as DepotRouteImport } from './routes/depot'
+import { Route as FideliteRouteImport } from './routes/fidelite'
+import { Route as LivraisonRouteImport } from './routes/livraison'
+import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as PaiementRouteImport } from './routes/paiement'
+import { Route as PanierRouteImport } from './routes/panier'
+import { Route as ProfilRouteImport } from './routes/profil'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as ConfirmationIdRouteImport } from './routes/confirmation.$id'
+import { Route as SuiviIdRouteImport } from './routes/suivi.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccueilRoute = AccueilRouteImport.update({
+  id: '/accueil',
+  path: '/accueil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesRoute = ArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommandesRoute = CommandesRouteImport.update({
+  id: '/commandes',
+  path: '/commandes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConnexionRoute = ConnexionRouteImport.update({
+  id: '/connexion',
+  path: '/connexion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DepotRoute = DepotRouteImport.update({
+  id: '/depot',
+  path: '/depot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FideliteRoute = FideliteRouteImport.update({
+  id: '/fidelite',
+  path: '/fidelite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LivraisonRoute = LivraisonRouteImport.update({
+  id: '/livraison',
+  path: '/livraison',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaiementRoute = PaiementRouteImport.update({
+  id: '/paiement',
+  path: '/paiement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PanierRoute = PanierRouteImport.update({
+  id: '/panier',
+  path: '/panier',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfilRoute = ProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfirmationIdRoute = ConfirmationIdRouteImport.update({
+  id: '/confirmation/$id',
+  path: '/confirmation/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuiviIdRoute = SuiviIdRouteImport.update({
+  id: '/suivi/$id',
+  path: '/suivi/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/accueil': typeof AccueilRoute
+  '/articles': typeof ArticlesRoute
+  '/commandes': typeof CommandesRoute
+  '/connexion': typeof ConnexionRoute
+  '/depot': typeof DepotRoute
+  '/fidelite': typeof FideliteRoute
+  '/livraison': typeof LivraisonRoute
+  '/notifications': typeof NotificationsRoute
+  '/paiement': typeof PaiementRoute
+  '/panier': typeof PanierRoute
+  '/profil': typeof ProfilRoute
+  '/services': typeof ServicesRoute
+  '/confirmation/$id': typeof ConfirmationIdRoute
+  '/suivi/$id': typeof SuiviIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/accueil': typeof AccueilRoute
+  '/articles': typeof ArticlesRoute
+  '/commandes': typeof CommandesRoute
+  '/connexion': typeof ConnexionRoute
+  '/depot': typeof DepotRoute
+  '/fidelite': typeof FideliteRoute
+  '/livraison': typeof LivraisonRoute
+  '/notifications': typeof NotificationsRoute
+  '/paiement': typeof PaiementRoute
+  '/panier': typeof PanierRoute
+  '/profil': typeof ProfilRoute
+  '/services': typeof ServicesRoute
+  '/confirmation/$id': typeof ConfirmationIdRoute
+  '/suivi/$id': typeof SuiviIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/accueil': typeof AccueilRoute
+  '/articles': typeof ArticlesRoute
+  '/commandes': typeof CommandesRoute
+  '/connexion': typeof ConnexionRoute
+  '/depot': typeof DepotRoute
+  '/fidelite': typeof FideliteRoute
+  '/livraison': typeof LivraisonRoute
+  '/notifications': typeof NotificationsRoute
+  '/paiement': typeof PaiementRoute
+  '/panier': typeof PanierRoute
+  '/profil': typeof ProfilRoute
+  '/services': typeof ServicesRoute
+  '/confirmation/$id': typeof ConfirmationIdRoute
+  '/suivi/$id': typeof SuiviIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/accueil'
+    | '/articles'
+    | '/commandes'
+    | '/connexion'
+    | '/depot'
+    | '/fidelite'
+    | '/livraison'
+    | '/notifications'
+    | '/paiement'
+    | '/panier'
+    | '/profil'
+    | '/services'
+    | '/confirmation/$id'
+    | '/suivi/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/accueil'
+    | '/articles'
+    | '/commandes'
+    | '/connexion'
+    | '/depot'
+    | '/fidelite'
+    | '/livraison'
+    | '/notifications'
+    | '/paiement'
+    | '/panier'
+    | '/profil'
+    | '/services'
+    | '/confirmation/$id'
+    | '/suivi/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/accueil'
+    | '/articles'
+    | '/commandes'
+    | '/connexion'
+    | '/depot'
+    | '/fidelite'
+    | '/livraison'
+    | '/notifications'
+    | '/paiement'
+    | '/panier'
+    | '/profil'
+    | '/services'
+    | '/confirmation/$id'
+    | '/suivi/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccueilRoute: typeof AccueilRoute
+  ArticlesRoute: typeof ArticlesRoute
+  CommandesRoute: typeof CommandesRoute
+  ConnexionRoute: typeof ConnexionRoute
+  DepotRoute: typeof DepotRoute
+  FideliteRoute: typeof FideliteRoute
+  LivraisonRoute: typeof LivraisonRoute
+  NotificationsRoute: typeof NotificationsRoute
+  PaiementRoute: typeof PaiementRoute
+  PanierRoute: typeof PanierRoute
+  ProfilRoute: typeof ProfilRoute
+  ServicesRoute: typeof ServicesRoute
+  ConfirmationIdRoute: typeof ConfirmationIdRoute
+  SuiviIdRoute: typeof SuiviIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +234,123 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/accueil': {
+      id: '/accueil'
+      path: '/accueil'
+      fullPath: '/accueil'
+      preLoaderRoute: typeof AccueilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles': {
+      id: '/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof ArticlesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/commandes': {
+      id: '/commandes'
+      path: '/commandes'
+      fullPath: '/commandes'
+      preLoaderRoute: typeof CommandesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/connexion': {
+      id: '/connexion'
+      path: '/connexion'
+      fullPath: '/connexion'
+      preLoaderRoute: typeof ConnexionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/depot': {
+      id: '/depot'
+      path: '/depot'
+      fullPath: '/depot'
+      preLoaderRoute: typeof DepotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fidelite': {
+      id: '/fidelite'
+      path: '/fidelite'
+      fullPath: '/fidelite'
+      preLoaderRoute: typeof FideliteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/livraison': {
+      id: '/livraison'
+      path: '/livraison'
+      fullPath: '/livraison'
+      preLoaderRoute: typeof LivraisonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paiement': {
+      id: '/paiement'
+      path: '/paiement'
+      fullPath: '/paiement'
+      preLoaderRoute: typeof PaiementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/panier': {
+      id: '/panier'
+      path: '/panier'
+      fullPath: '/panier'
+      preLoaderRoute: typeof PanierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profil': {
+      id: '/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof ProfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confirmation/$id': {
+      id: '/confirmation/$id'
+      path: '/confirmation/$id'
+      fullPath: '/confirmation/$id'
+      preLoaderRoute: typeof ConfirmationIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/suivi/$id': {
+      id: '/suivi/$id'
+      path: '/suivi/$id'
+      fullPath: '/suivi/$id'
+      preLoaderRoute: typeof SuiviIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccueilRoute: AccueilRoute,
+  ArticlesRoute: ArticlesRoute,
+  CommandesRoute: CommandesRoute,
+  ConnexionRoute: ConnexionRoute,
+  DepotRoute: DepotRoute,
+  FideliteRoute: FideliteRoute,
+  LivraisonRoute: LivraisonRoute,
+  NotificationsRoute: NotificationsRoute,
+  PaiementRoute: PaiementRoute,
+  PanierRoute: PanierRoute,
+  ProfilRoute: ProfilRoute,
+  ServicesRoute: ServicesRoute,
+  ConfirmationIdRoute: ConfirmationIdRoute,
+  SuiviIdRoute: SuiviIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
