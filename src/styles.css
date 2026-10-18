@@ -51,6 +51,10 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-navy: var(--navy);
+  --color-teal: var(--teal);
+  --color-success: var(--success);
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -62,21 +66,27 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 1rem;
+  --navy: oklch(0.24 0.09 265);
+  --teal: oklch(0.75 0.13 195);
+  --success: oklch(0.68 0.15 160);
+  --background: oklch(0.975 0.008 240);
+  --foreground: oklch(0.24 0.09 265);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.24 0.09 265);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.24 0.09 265);
+  --primary: oklch(0.53 0.2 258);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.95 0.025 240);
+  --secondary-foreground: oklch(0.24 0.09 265);
+  --muted: oklch(0.95 0.015 240);
+  --muted-foreground: oklch(0.52 0.04 260);
+  --accent: oklch(0.94 0.05 200);
+  --accent-foreground: oklch(0.35 0.1 230);
+  --gradient-brand: linear-gradient(135deg, oklch(0.24 0.09 265), oklch(0.53 0.2 258));
+  --gradient-action: linear-gradient(90deg, oklch(0.53 0.2 258), oklch(0.75 0.13 195));
+  --shadow-card: 0 8px 24px -12px oklch(0.24 0.09 265 / 0.18);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.929 0.013 255.508);
@@ -142,3 +152,7 @@
     color: var(--color-foreground);
   }
 }
+
+@utility bg-brand { background-image: var(--gradient-brand); }
+@utility bg-action { background-image: var(--gradient-action); }
+@utility shadow-card { box-shadow: var(--shadow-card); }

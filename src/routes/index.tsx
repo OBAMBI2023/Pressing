@@ -1,24 +1,32 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import hero from "@/assets/hero.jpg";
+import { Logo, btn } from "@/components/AppShell";
+import { seo } from "@/lib/seo";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => seo("Bienvenue", "Laundry : lavage, repassage, nettoyage à sec, collecte et livraison. Propre. Simple. Pour vous."),
+  component: Welcome,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Welcome() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background md:grid md:place-items-center md:py-8">
+      <div className="mx-auto flex min-h-screen max-w-md flex-col overflow-hidden bg-card md:min-h-0 md:grid md:max-w-4xl md:grid-cols-2 md:rounded-3xl md:shadow-card">
+        <div className="relative">
+          <img src={hero} alt="Linge propre plié près d'une machine à laver" width={1024} height={1024} className="h-80 w-full object-cover md:h-full" />
+          <div className="absolute left-5 top-5 rounded-full bg-card/90 px-4 py-2 backdrop-blur"><Logo /></div>
+        </div>
+        <div className="flex flex-1 flex-col justify-center gap-5 p-8">
+          <p className="text-sm font-semibold uppercase tracking-widest text-primary">Propre. Simple. Pour vous.</p>
+          <h1 className="text-3xl font-extrabold leading-tight text-navy">Un service de pressing moderne à portée de main</h1>
+          <p className="text-muted-foreground">Lavage, repassage, nettoyage à sec. Collecte, livraison ou dépôt/retrait au pressing.</p>
+          <Link to="/connexion" search={{ mode: "inscription" }} className={btn}>Commencer</Link>
+          <p className="text-center text-sm text-muted-foreground">
+            Déjà un compte ? <Link to="/connexion" search={{ mode: "connexion" }} className="font-semibold text-primary">Se connecter</Link>
+          </p>
+          <p className="rounded-xl bg-secondary p-3 text-center text-xs text-muted-foreground">Prototype de démonstration : aucune commande ni paiement n'est réellement transmis.</p>
+        </div>
+      </div>
     </div>
   );
 }
