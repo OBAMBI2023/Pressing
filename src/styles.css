@@ -153,6 +153,12 @@
   }
 }
 
-@utility bg-brand { background-image: var(--gradient-brand); }
-@utility bg-action { background-image: var(--gradient-action); }
-@utility shadow-card { box-shadow: var(--shadow-card); }
+@utility bg-brand {
+  background-image: var(--gradient-brand);
+}
+@utility bg-action {
+  background-image: var(--gradient-action);
+}
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}

@@ -20,11 +20,15 @@ function Services() {
           return (
             <Link key={s.id} to="/articles" search={{ service: s.id }}>
               <Card className="mb-3 flex items-center gap-4">
-                <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-secondary text-primary"><Icon className="h-8 w-8" /></div>
+                <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-secondary text-primary">
+                  <Icon className="h-8 w-8" />
+                </div>
                 <div className="min-w-0 flex-1">
                   <p className="font-bold text-navy">{s.name}</p>
                   <p className="text-sm text-muted-foreground">{s.desc}</p>
-                  <p className="mt-1 text-sm font-semibold text-primary">À partir de {fmt(s.from)}</p>
+                  <p className="mt-1 text-sm font-semibold text-primary">
+                    À partir de {fmt(s.from)}
+                  </p>
                 </div>
                 <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
               </Card>

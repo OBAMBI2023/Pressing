@@ -17,15 +17,33 @@ function Confirm() {
       <Card className="mt-6 flex flex-col items-center gap-3 py-10 text-center">
         <CheckCircle2 className="h-16 w-16 text-success" />
         <h2 className="text-2xl font-extrabold text-navy">Commande enregistrée !</h2>
-        {o ? <>
-          <p className="text-muted-foreground">Commande <b>#{o.id}</b> • {fmt(o.total)}</p>
-          <p className="text-sm text-muted-foreground">{o.logistics.address} • {new Date(o.logistics.date).toLocaleDateString("fr-FR")} • {o.logistics.slot}</p>
-        </> : <p className="text-muted-foreground">Commande introuvable.</p>}
-        <p className="rounded-xl bg-secondary p-3 text-xs text-muted-foreground">Simulation : la commande est enregistrée uniquement sur cet appareil. Aucun pressing ni livreur n'a été contacté.</p>
+        {o ? (
+          <>
+            <p className="text-muted-foreground">
+              Commande <b>#{o.id}</b> • {fmt(o.total)}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {o.logistics.address} • {new Date(o.logistics.date).toLocaleDateString("fr-FR")} •{" "}
+              {o.logistics.slot}
+            </p>
+          </>
+        ) : (
+          <p className="text-muted-foreground">Commande introuvable.</p>
+        )}
+        <p className="rounded-xl bg-secondary p-3 text-xs text-muted-foreground">
+          Simulation : la commande est enregistrée uniquement sur cet appareil. Aucun pressing ni
+          livreur n'a été contacté.
+        </p>
       </Card>
       <div className="mt-5 space-y-3">
-        {o && <Link to="/suivi/$id" params={{ id: o.id }} className={btn}>Suivre ma commande</Link>}
-        <Link to="/accueil" className={btnOutline}>Retour à l'accueil</Link>
+        {o && (
+          <Link to="/suivi/$id" params={{ id: o.id }} className={btn}>
+            Suivre ma commande
+          </Link>
+        )}
+        <Link to="/accueil" className={btnOutline}>
+          Retour à l'accueil
+        </Link>
       </div>
     </AppShell>
   );
