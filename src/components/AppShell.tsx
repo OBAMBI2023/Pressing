@@ -1,4 +1,4 @@
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useCanGoBack, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, Home, ClipboardList, ShoppingBasket, User, Droplet } from "lucide-react";
 import type { ReactNode } from "react";
 import { useStore } from "@/lib/store";
@@ -33,6 +33,9 @@ export function AppShell({
   right?: ReactNode;
 }) {
   const router = useRouter();
+  // True only after a navigation inside the app: on a page opened directly, the previous
+  // browser entry (if any) belongs to another site, so going back would leave the app.
+  const canGoBack = useCanGoBack();
   const { cart } = useStore();
   const count = cart.reduce((a, l) => a + l.qty, 0);
   const nav = [
@@ -48,7 +51,9 @@ export function AppShell({
           {back ? (
             <button
               aria-label="Retour"
-              onClick={() => router.history.back()}
+              onClick={() =>
+                canGoBack ? router.history.back() : router.navigate({ to: "/accueil" })
+              }
               className="grid h-9 w-9 place-items-center rounded-full bg-secondary text-primary"
             >
               <ArrowLeft className="h-5 w-5" />
