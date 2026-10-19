@@ -19,17 +19,29 @@ function Depot() {
     <AppShell title="Dépôt / Retrait">
       <Card className="mb-5 flex flex-col items-center gap-3 text-center">
         <Store className="h-14 w-14 text-primary" />
-        <h2 className="text-xl font-extrabold text-navy">Déposez votre linge dans nos points de collecte</h2>
+        <h2 className="text-xl font-extrabold text-navy">
+          Déposez votre linge dans nos points de collecte
+        </h2>
         <p className="text-sm text-muted-foreground">Rapide, simple et sans rendez-vous.</p>
-        <Link to="/services" className={btn}>Préparer un dépôt</Link>
-        <Link to="/commandes" className={btnOutline}>Voir mes dépôts</Link>
+        <Link to="/services" className={btn}>
+          Préparer un dépôt
+        </Link>
+        <Link to="/commandes" className={btnOutline}>
+          Voir mes dépôts
+        </Link>
       </Card>
-      <p className="mb-3 flex items-center gap-2 font-bold text-navy">Nos points de collecte <DemoBadge /></p>
+      <p className="mb-3 flex items-center gap-2 font-bold text-navy">
+        Nos points de collecte <DemoBadge />
+      </p>
       <div className="space-y-3">
         {POINTS.map((p) => (
           <Card key={p.n} className="flex items-center gap-3">
             <MapPin className="h-6 w-6 shrink-0 text-primary" />
-            <div className="min-w-0 flex-1"><p className="font-semibold text-navy">{p.n}</p><p className="text-xs text-muted-foreground">{p.a}</p><p className="text-xs font-semibold text-success">Ouvert • 7h - 20h</p></div>
+            <div className="min-w-0 flex-1">
+              <p className="font-semibold text-navy">{p.n}</p>
+              <p className="text-xs text-muted-foreground">{p.a}</p>
+              <p className="text-xs font-semibold text-success">Ouvert • 7h - 20h</p>
+            </div>
             <span className="shrink-0 text-sm font-semibold text-primary">{p.d}</span>
           </Card>
         ))}
