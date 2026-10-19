@@ -9,7 +9,7 @@ export const Route = createFileRoute("/services")({
   component: Services,
 });
 
-export const serviceIcon = { lavage: WashingMachine, repassage: Shirt, sec: Sparkles };
+const serviceIcon = { lavage: WashingMachine, repassage: Shirt, sec: Sparkles };
 
 function Services() {
   return (
