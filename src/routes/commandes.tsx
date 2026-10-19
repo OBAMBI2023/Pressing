@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, Card, DemoBadge, btn } from "@/components/AppShell";
-import { fmt, useStore } from "@/lib/store";
+import { fmt, formatDate, isDelivered, useStore } from "@/lib/store";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/commandes")({
@@ -12,7 +12,9 @@ export const Route = createFileRoute("/commandes")({
 function Commandes() {
   const { orders } = useStore();
   const [tab, setTab] = useState<"all" | "done" | "current">("all");
-  const list = orders.filter((o) => tab === "all" || (tab === "done" ? o.step >= 5 : o.step < 5));
+  const list = orders.filter(
+    (o) => tab === "all" || (tab === "done" ? isDelivered(o) : !isDelivered(o)),
+  );
   const tabs = [
     ["all", "Toutes"],
     ["done", "Livrées"],
@@ -47,13 +49,11 @@ function Commandes() {
                   <p className="flex items-center gap-2 font-bold text-navy">
                     #{o.id} {o.demo && <DemoBadge />}
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    {new Date(o.date).toLocaleDateString("fr-FR")}
-                  </p>
+                  <p className="text-xs text-muted-foreground">{formatDate(o.date)}</p>
                   <span
-                    className={`mt-1 inline-block rounded-full px-2 py-0.5 text-xs font-semibold ${o.step >= 5 ? "bg-success/15 text-success" : "bg-teal/20 text-accent-foreground"}`}
+                    className={`mt-1 inline-block rounded-full px-2 py-0.5 text-xs font-semibold ${isDelivered(o) ? "bg-success/15 text-success" : "bg-teal/20 text-accent-foreground"}`}
                   >
-                    {o.step >= 5 ? "Livrée" : "En cours"}
+                    {isDelivered(o) ? "Livrée" : "En cours"}
                   </span>
                 </div>
                 <span className="font-bold text-navy">{fmt(o.total)}</span>

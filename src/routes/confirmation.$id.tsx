@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2 } from "lucide-react";
 import { AppShell, Card, btn, btnOutline } from "@/components/AppShell";
-import { fmt, useStore } from "@/lib/store";
+import { fmt, formatDate, useStore } from "@/lib/store";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/confirmation/$id")({
@@ -23,8 +23,7 @@ function Confirm() {
               Commande <b>#{o.id}</b> • {fmt(o.total)}
             </p>
             <p className="text-sm text-muted-foreground">
-              {o.logistics.address} • {new Date(o.logistics.date).toLocaleDateString("fr-FR")} •{" "}
-              {o.logistics.slot}
+              {o.logistics.address} • {formatDate(o.logistics.date)} • {o.logistics.slot}
             </p>
           </>
         ) : (

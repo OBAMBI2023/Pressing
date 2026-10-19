@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Home, Store, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { AppShell, Card, btn, input } from "@/components/AppShell";
-import { SLOTS, useStore, type Mode } from "@/lib/store";
+import { SLOTS, todayISO, useStore, type Mode } from "@/lib/store";
 import { Field } from "./connexion";
 import { seo } from "@/lib/seo";
 
@@ -20,8 +20,15 @@ function Livraison() {
   const { logistics, setLogistics, cart } = useStore();
   const nav = useNavigate();
   const [f, setF] = useState(logistics);
+  // The store loads saved logistics from localStorage after the first render: refill the
+  // form when they arrive instead of keeping the empty defaults.
+  const [loaded, setLoaded] = useState(logistics);
+  if (loaded !== logistics) {
+    setLoaded(logistics);
+    setF(logistics);
+  }
   const [err, setErr] = useState<LogisticsErrors>({});
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayISO();
 
   if (!cart.length)
     return (

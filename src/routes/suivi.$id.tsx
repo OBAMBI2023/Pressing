@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { AppShell, Card, DemoBadge, btn } from "@/components/AppShell";
-import { STEPS, fmt, itemOf, serviceOf, useStore } from "@/lib/store";
+import { STEPS, fmt, isDelivered, itemOf, serviceOf, useStore } from "@/lib/store";
 import { Row } from "./panier";
 import { seo } from "@/lib/seo";
 
@@ -37,9 +37,9 @@ function Suivi() {
         <span className="flex gap-2">
           {o.demo && <DemoBadge />}
           <span
-            className={`rounded-full px-3 py-1 text-xs font-bold ${o.step >= 5 ? "bg-success/15 text-success" : "bg-teal/20 text-accent-foreground"}`}
+            className={`rounded-full px-3 py-1 text-xs font-bold ${isDelivered(o) ? "bg-success/15 text-success" : "bg-teal/20 text-accent-foreground"}`}
           >
-            {o.step >= 5 ? "Livrée" : "En cours"}
+            {isDelivered(o) ? "Livrée" : "En cours"}
           </span>
         </span>
       </div>

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bell, PackagePlus, MapPinned, History, Gift, Store, ChevronRight } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
-import { useStore, STEPS } from "@/lib/store";
+import { isDelivered, useStore, STEPS } from "@/lib/store";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/accueil")({
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/accueil")({
 
 function Dashboard() {
   const { user, orders } = useStore();
-  const current = orders.find((o) => o.step < 5);
+  const current = orders.find((o) => !isDelivered(o));
   const tiles = [
     { to: "/commandes", label: "Historique", icon: History },
     { to: "/fidelite", label: "Fidélité", icon: Gift },

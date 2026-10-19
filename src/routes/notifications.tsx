@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bell } from "lucide-react";
 import { AppShell, Card, DemoBadge } from "@/components/AppShell";
-import { STEPS, useStore } from "@/lib/store";
+import { STEPS, isDelivered, useStore } from "@/lib/store";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/notifications")({
@@ -15,7 +15,7 @@ function Notifs() {
     ...orders.slice(0, 4).map((o) => ({
       id: o.id,
       t: `Commande #${o.id}`,
-      d: o.step >= 5 ? "Livrée. Bon pour votre linge !" : `Statut : ${STEPS[o.step]}.`,
+      d: isDelivered(o) ? "Livrée. Bon pour votre linge !" : `Statut : ${STEPS[o.step]}.`,
     })),
     { id: null, t: "Offre spéciale", d: "-20 % sur le nettoyage à sec toute la semaine !" },
     { id: null, t: "Rappel", d: "Votre point de collecte est ouvert de 7h à 20h." },

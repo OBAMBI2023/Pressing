@@ -1,7 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Minus, Plus, Trash2, ShoppingBasket } from "lucide-react";
 import { AppShell, Card, btn, btnOutline } from "@/components/AppShell";
-import { feeOf, fmt, itemOf, linePrice, serviceOf, subtotalOf, useStore } from "@/lib/store";
+import {
+  feeOf,
+  fmt,
+  formatDate,
+  itemOf,
+  linePrice,
+  serviceOf,
+  subtotalOf,
+  useStore,
+} from "@/lib/store";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/panier")({
@@ -73,8 +82,7 @@ function Panier() {
               v={fee ? fmt(fee) : "Gratuit"}
             />
             <p className="text-xs text-muted-foreground">
-              {logistics.address} • {new Date(logistics.date).toLocaleDateString("fr-FR")} •{" "}
-              {logistics.slot}
+              {logistics.address} • {formatDate(logistics.date)} • {logistics.slot}
             </p>
           </>
         ) : (

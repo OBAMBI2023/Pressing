@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import { z } from "zod";
 
 export type ServiceId = "lavage" | "repassage" | "sec";
 export const SERVICES: { id: ServiceId; name: string; desc: string; from: number }[] = [
@@ -25,6 +26,7 @@ export const STEPS = [
   "Préparation",
   "Livraison",
 ];
+export const LAST_STEP = STEPS.length - 1;
 
 export type CartLine = { key: string; item: ItemId; service: ServiceId; qty: number };
 export type Mode = "domicile" | "pressing";
@@ -40,7 +42,7 @@ export type Order = {
   fee: number;
   total: number;
   step: number;
-  demo?: boolean;
+  demo?: boolean | undefined;
 };
 
 export const fmt = (n: number) =>
@@ -50,6 +52,25 @@ export const serviceOf = (id: ServiceId) => SERVICES.find((s) => s.id === id)!;
 export const linePrice = (l: CartLine) => itemOf(l.item).prices[l.service] * l.qty;
 export const subtotalOf = (lines: CartLine[]) => lines.reduce((a, l) => a + linePrice(l), 0);
 export const feeOf = (mode: Mode) => (mode === "domicile" ? DELIVERY_FEE : 0);
+export const isDelivered = (o: Order) => o.step >= LAST_STEP;
+
+// Dates are stored as "YYYY-MM-DD" in the user's local calendar. `new Date("YYYY-MM-DD")`
+// and `toISOString()` both work in UTC, which shifts the day for users outside GMT.
+export const todayISO = (now = new Date()) =>
+  [now.getFullYear(), now.getMonth() + 1, now.getDate()]
+    .map((n) => String(n).padStart(2, "0"))
+    .join("-");
+export const formatDate = (iso: string) => {
+  const [y, m, d] = iso.split("-").map(Number);
+  if (!y || !m || !d) return iso;
+  return new Date(y, m - 1, d).toLocaleDateString("fr-FR");
+};
+
+// Sequential ids: unique among existing orders (demo ones included), unlike random ids.
+export const nextOrderId = (orders: Order[]) => {
+  const max = orders.reduce((a, o) => Math.max(a, Number(o.id.slice(2)) || 0), 2600);
+  return `LN${max + 1}`;
+};
 
 export const DEMO: Order[] = [
   {
@@ -117,6 +138,59 @@ export const defaultLog: Logistics = {
   slot: "",
   note: "",
 };
+export const STORAGE_KEY = "laundry-demo";
+
+const cartLineSchema = z.object({
+  key: z.string(),
+  item: z.enum(ITEMS.map((i) => i.id) as [ItemId, ...ItemId[]]),
+  service: z.enum(SERVICES.map((s) => s.id) as [ServiceId, ...ServiceId[]]),
+  qty: z.number().int().positive(),
+});
+const logisticsSchema = z.object({
+  mode: z.enum(["domicile", "pressing"]),
+  address: z.string(),
+  date: z.string(),
+  slot: z.string(),
+  note: z.string(),
+});
+const orderSchema = z.object({
+  id: z.string(),
+  date: z.string(),
+  lines: z.array(cartLineSchema),
+  logistics: logisticsSchema,
+  payment: z.enum(["mobile", "carte", "retrait"]),
+  subtotal: z.number(),
+  fee: z.number(),
+  total: z.number(),
+  step: z.number().int().min(0).max(LAST_STEP),
+  demo: z.boolean().optional(),
+});
+const userSchema = z.object({ name: z.string(), email: z.string() });
+
+export type Persisted = Pick<Ctx, "cart" | "orders" | "logistics" | "user">;
+
+// Validates each field of the saved state on its own: a corrupted or outdated field falls
+// back to its default instead of crashing the pages that read it.
+export const parsePersisted = (raw: string | null): Persisted => {
+  let data: Record<string, unknown> = {};
+  try {
+    const parsed: unknown = JSON.parse(raw ?? "null");
+    if (parsed && typeof parsed === "object") data = parsed as Record<string, unknown>;
+  } catch {
+    /* corrupted JSON: use defaults */
+  }
+  const field = <T>(schema: z.ZodType<T>, value: unknown, fallback: T) => {
+    const r = schema.safeParse(value);
+    return r.success ? r.data : fallback;
+  };
+  return {
+    cart: field(z.array(cartLineSchema), data["cart"], []),
+    orders: field(z.array(orderSchema), data["orders"], DEMO),
+    logistics: field(logisticsSchema, data["logistics"], defaultLog),
+    user: field(userSchema.nullable(), data["user"], null),
+  };
+};
+
 export const useStore = () => {
   const c = useContext(StoreContext);
   if (!c) throw new Error("no store");

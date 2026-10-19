@@ -1,10 +1,14 @@
 import { useEffect, useState, type ReactNode } from "react";
 import {
   DEMO,
+  STORAGE_KEY,
   StoreContext,
   defaultLog,
   feeOf,
+  nextOrderId,
+  parsePersisted,
   subtotalOf,
+  todayISO,
   type CartLine,
   type Ctx,
   type Logistics,
@@ -20,22 +24,26 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    let raw: string | null = null;
     try {
-      const s = JSON.parse(localStorage.getItem("laundry-demo") || "null");
-      if (s) {
-        setCart(s.cart ?? []);
-        setOrders(s.orders ?? DEMO);
-        setUser(s.user ?? null);
-        setLogistics(s.logistics ?? defaultLog);
-      }
+      raw = localStorage.getItem(STORAGE_KEY);
     } catch {
-      /* ignore */
+      /* storage unavailable: start from defaults */
     }
+    const s = parsePersisted(raw);
+    setCart(s.cart);
+    setOrders(s.orders);
+    setUser(s.user);
+    setLogistics(s.logistics);
     setReady(true);
   }, []);
   useEffect(() => {
-    if (ready)
-      localStorage.setItem("laundry-demo", JSON.stringify({ cart, orders, user, logistics }));
+    if (!ready) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ cart, orders, user, logistics }));
+    } catch {
+      /* private browsing or quota exceeded: keep working in memory */
+    }
   }, [cart, orders, user, logistics, ready]);
 
   const setQty: Ctx["setQty"] = (item, service, qty) =>
@@ -53,8 +61,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const subtotal = subtotalOf(cart);
     const fee = feeOf(logistics.mode);
     const o: Order = {
-      id: "LN" + Math.floor(2600 + Math.random() * 7000),
-      date: new Date().toISOString().slice(0, 10),
+      id: nextOrderId(orders),
+      date: todayISO(),
       lines: cart,
       logistics,
       payment,
