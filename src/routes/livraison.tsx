@@ -12,13 +12,15 @@ export const Route = createFileRoute("/livraison")({
   component: Livraison,
 });
 
-const PRESSINGS = ["Pressing Riviera 3", "Pressing Cocody Angré", "Pressing Plateau"];
+const PRESSINGS = ["Pressing Riviera 3", "Pressing Cocody Angré", "Pressing Plateau"] as const;
+
+type LogisticsErrors = Partial<Record<"address" | "date" | "slot", string>>;
 
 function Livraison() {
   const { logistics, setLogistics, cart } = useStore();
   const nav = useNavigate();
   const [f, setF] = useState(logistics);
-  const [err, setErr] = useState<Record<string, string>>({});
+  const [err, setErr] = useState<LogisticsErrors>({});
   const today = new Date().toISOString().slice(0, 10);
 
   if (!cart.length)
@@ -36,7 +38,7 @@ function Livraison() {
   const setMode = (mode: Mode) =>
     setF({ ...f, mode, address: mode === "pressing" ? PRESSINGS[0] : "" });
   const submit = () => {
-    const e: Record<string, string> = {};
+    const e: LogisticsErrors = {};
     if (f.address.trim().length < 3)
       e.address = f.mode === "domicile" ? "Indiquez votre adresse." : "Choisissez un pressing.";
     if (!f.date || f.date < today) e.date = "Choisissez une date à partir d'aujourd'hui.";

@@ -6,8 +6,8 @@ import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/articles")({
   validateSearch: (s: Record<string, unknown>): { service: ServiceId } => ({
-    service: (["lavage", "repassage", "sec"].includes(s.service as string)
-      ? s.service
+    service: (["lavage", "repassage", "sec"].includes(s["service"] as string)
+      ? s["service"]
       : "lavage") as ServiceId,
   }),
   head: () => seo("Vos articles", "Sélectionnez vos vêtements et quantités."),

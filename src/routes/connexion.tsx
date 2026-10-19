@@ -6,24 +6,26 @@ import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/connexion")({
   validateSearch: (s: Record<string, unknown>) =>
-    ({ mode: s.mode === "inscription" ? "inscription" : "connexion" }) as {
+    ({ mode: s["mode"] === "inscription" ? "inscription" : "connexion" }) as {
       mode: "connexion" | "inscription";
     },
   head: () => seo("Connexion", "Connectez-vous ou créez votre compte Laundry (simulation)."),
   component: Auth,
 });
 
+type AuthErrors = Partial<Record<"name" | "email" | "password", string>>;
+
 function Auth() {
   const { mode } = Route.useSearch();
   const { login } = useStore();
   const nav = useNavigate();
   const [f, setF] = useState({ name: "", email: "", password: "" });
-  const [err, setErr] = useState<Record<string, string>>({});
+  const [err, setErr] = useState<AuthErrors>({});
   const signup = mode === "inscription";
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    const er: Record<string, string> = {};
+    const er: AuthErrors = {};
     if (signup && f.name.trim().length < 2) er.name = "Indiquez votre nom.";
     if (!/^\S+@\S+\.\S+$/.test(f.email) && !/^\+?\d{8,}$/.test(f.email.replace(/\s/g, "")))
       er.email = "Email ou téléphone invalide.";
@@ -108,7 +110,7 @@ export function Field({
   children,
 }: {
   label: string;
-  error?: string;
+  error?: string | undefined;
   children: React.ReactNode;
 }) {
   return (

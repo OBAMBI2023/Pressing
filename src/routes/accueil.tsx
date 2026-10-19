@@ -38,19 +38,30 @@ function Dashboard() {
         <p className="mt-1 text-sm opacity-80">Qualité • Rapidité • Confiance</p>
       </div>
       <div className="grid gap-3 md:grid-cols-2">
-        <ActionCard
-          to="/services"
-          icon={PackagePlus}
-          title="Nouvelle commande"
-          desc="Lancez votre demande en quelques clics"
-        />
-        <ActionCard
-          to={current ? "/suivi/$id" : "/commandes"}
-          params={current ? { id: current.id } : undefined}
-          icon={MapPinned}
-          title="Suivi de commande"
-          desc={current ? `#${current.id} • ${STEPS[current.step]}` : "Aucune commande en cours"}
-        />
+        <Link to="/services">
+          <ActionCard
+            icon={PackagePlus}
+            title="Nouvelle commande"
+            desc="Lancez votre demande en quelques clics"
+          />
+        </Link>
+        {current ? (
+          <Link to="/suivi/$id" params={{ id: current.id }}>
+            <ActionCard
+              icon={MapPinned}
+              title="Suivi de commande"
+              desc={`#${current.id} • ${STEPS[current.step]}`}
+            />
+          </Link>
+        ) : (
+          <Link to="/commandes">
+            <ActionCard
+              icon={MapPinned}
+              title="Suivi de commande"
+              desc="Aucune commande en cours"
+            />
+          </Link>
+        )}
       </div>
       <div className="mt-4 grid grid-cols-3 gap-3">
         {tiles.map((t) => (
@@ -69,31 +80,24 @@ function Dashboard() {
 }
 
 function ActionCard({
-  to,
-  params,
   icon: Icon,
   title,
   desc,
 }: {
-  to: string;
-  params?: { id: string };
   icon: typeof Bell;
   title: string;
   desc: string;
 }) {
   return (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    <Link to={to as any} params={params as any}>
-      <Card className="flex items-center gap-4">
-        <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-action text-primary-foreground">
-          <Icon className="h-7 w-7" />
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="font-bold text-navy">{title}</p>
-          <p className="truncate text-sm text-muted-foreground">{desc}</p>
-        </div>
-        <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
-      </Card>
-    </Link>
+    <Card className="flex items-center gap-4">
+      <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-action text-primary-foreground">
+        <Icon className="h-7 w-7" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="font-bold text-navy">{title}</p>
+        <p className="truncate text-sm text-muted-foreground">{desc}</p>
+      </div>
+      <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
+    </Card>
   );
 }
