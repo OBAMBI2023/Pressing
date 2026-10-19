@@ -111,3 +111,12 @@ describe("Confirmation page", () => {
     expect(screen.queryByRole("heading", { name: "Commande introuvable" })).toBeNull();
   });
 });
+
+describe("Not found page", () => {
+  it("is in French for an unknown URL", async () => {
+    await renderAt("/page-inexistante");
+    expect(await screen.findByRole("heading", { name: "Page introuvable" })).toBeVisible();
+    expect(screen.getByRole("link", { name: "Retour à l'accueil" })).toHaveAttribute("href", "/");
+    expect(screen.queryByText(/not found|go home/i)).toBeNull();
+  });
+});
