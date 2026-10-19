@@ -45,6 +45,48 @@ describe("Retour button", () => {
   });
 });
 
+describe("Accueil", () => {
+  it("links each existing service to its articles, without Lavage express", async () => {
+    await renderAt("/accueil");
+    await screen.findByRole("heading", { name: "Nos services" });
+    for (const [name, service] of [
+      ["Lavage", "lavage"],
+      ["Repassage", "repassage"],
+      ["Nettoyage à sec", "sec"],
+    ] as const) {
+      expect(screen.getByRole("link", { name })).toHaveAttribute(
+        "href",
+        `/articles?service=${service}`,
+      );
+    }
+    expect(screen.queryByText(/express/i)).toBeNull();
+  });
+
+  it("links the main cards and tracks the order in progress", async () => {
+    await renderAt("/accueil");
+    expect(await screen.findByRole("link", { name: /Collecte & Livraison/ })).toHaveAttribute(
+      "href",
+      "/services",
+    );
+    expect(screen.getByRole("link", { name: /Dépôt & Retrait/ })).toHaveAttribute("href", "/depot");
+    expect(screen.getByText("#LN2587 • Lavage en cours")).toBeVisible();
+    expect(screen.getByRole("link", { name: /Suivre ma commande/ })).toHaveAttribute(
+      "href",
+      "/suivi/LN2587",
+    );
+  });
+
+  it("offers the order history when no order is in progress", async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ orders: [{ ...DEMO[1]! }] }));
+    await renderAt("/accueil");
+    expect(await screen.findByText("Aucune commande en cours")).toBeVisible();
+    expect(screen.getByRole("link", { name: /Mes commandes/ })).toHaveAttribute(
+      "href",
+      "/commandes",
+    );
+  });
+});
+
 describe("Confirmation page", () => {
   it("shows an error, not a success message, for an unknown order", async () => {
     await renderAt("/confirmation/LN9999");
